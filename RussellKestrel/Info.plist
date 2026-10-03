@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>CFBundleDisplayName</key><string>Russell Kestrel</string>
+<key>CFBundleIdentifier</key><string>com.russell.kestrel</string>
+<key>CFBundleName</key><string>RussellKestrel</string>
+<key>CFBundleShortVersionString</key><string>7.0</string>
+<key>CFBundleVersion</key><string>7</string>
+<key>LSRequiresIPhoneOS</key><true/>
+<key>UILaunchScreen</key><dict/>
+<key>NSCameraUsageDescription</key><string>Camera access is used only for optional two-way talk.</string>
+<key>NSMicrophoneUsageDescription</key><string>Microphone access is used only for optional two-way talk to a supported Kestrel camera.</string>
+<key>NSLocalNetworkUsageDescription</key><string>Russell Kestrel needs local network access to connect to your Kestrel DVR.</string>
+<key>NSAppTransportSecurity</key><dict><key>NSAllowsArbitraryLoads</key><true/></dict>
+</dict></plist>
