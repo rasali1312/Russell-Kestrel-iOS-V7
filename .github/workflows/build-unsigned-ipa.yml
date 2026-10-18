@@ -95,9 +95,7 @@ jobs:
 
           mkdir -p artifacts
 
-          cd Payload
-          zip -r ../artifacts/Russell-Kestrel-iOS-V7-unsigned.ipa RussellKestrel.app
-          cd ..
+          zip -r artifacts/Russell-Kestrel-iOS-V7-unsigned.ipa Payload/RussellKestrel.app
 
           echo "IPA created:"
           ls -lh artifacts/
