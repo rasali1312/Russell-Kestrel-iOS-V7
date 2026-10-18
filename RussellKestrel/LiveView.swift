@@ -27,7 +27,7 @@ struct LiveView: View {
                                         .background(.black.opacity(0.65)).clipShape(RoundedRectangle(cornerRadius: 5))
                                 }
                                 .clipShape(RoundedRectangle(cornerRadius: 8))
-                                .overlay(RoundedRectangle(cornerRadius: 8).stroke(selectedChannel == channel ? .primary : .clear, lineWidth: 2))
+                                .overlay(RoundedRectangle(cornerRadius: 8).stroke(selectedChannel == channel ? Color.primary : Color.clear, lineWidth: 2))
                         }
                         .buttonStyle(.plain)
                     }
