@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - master
+      - repair-v7-source-paths-and-ipa-validation
 
 jobs:
   build:
