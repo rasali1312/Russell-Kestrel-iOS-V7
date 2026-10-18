@@ -5,14 +5,14 @@
  objects = {
   1A0000000000000000000001 = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = RussellKestrel/Info.plist; sourceTree = SOURCE_ROOT;};
   1A0000000000000000000002 = {isa = PBXGroup; children = (1A0000000000000000000010,1A0000000000000000000011,1A0000000000000000000012,1A0000000000000000000013,1A0000000000000000000014,1A0000000000000000000015,1A0000000000000000000016,1A0000000000000000000017,1A0000000000000000000001); path = RussellKestrel; sourceTree = SOURCE_ROOT;};
-  1A0000000000000000000010 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = SOURCE_ROOT;};
-  1A0000000000000000000011 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = SOURCE_ROOT;};
-  1A0000000000000000000012 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KestrelArchiveClient.swift; sourceTree = SOURCE_ROOT;};
-  1A0000000000000000000013 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveView.swift; sourceTree = SOURCE_ROOT;};
-  1A0000000000000000000014 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = SOURCE_ROOT;};
-  1A0000000000000000000015 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackView.swift; sourceTree = SOURCE_ROOT;};
-  1A0000000000000000000016 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RussellKestrelApp.swift; sourceTree = SOURCE_ROOT;};
-  1A0000000000000000000017 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = SOURCE_ROOT;};
+  1A0000000000000000000010 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>";};
+  1A0000000000000000000011 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>";};
+  1A0000000000000000000012 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KestrelArchiveClient.swift; sourceTree = "<group>";};
+  1A0000000000000000000013 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveView.swift; sourceTree = "<group>";};
+  1A0000000000000000000014 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>";};
+  1A0000000000000000000015 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackView.swift; sourceTree = "<group>";};
+  1A0000000000000000000016 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RussellKestrelApp.swift; sourceTree = "<group>";};
+  1A0000000000000000000017 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>";};
   1A0000000000000000000020 = {isa = PBXBuildFile; fileRef = 1A0000000000000000000010;};
   1A0000000000000000000021 = {isa = PBXBuildFile; fileRef = 1A0000000000000000000011;};
   1A0000000000000000000022 = {isa = PBXBuildFile; fileRef = 1A0000000000000000000012;};
