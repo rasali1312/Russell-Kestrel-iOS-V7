@@ -36,6 +36,7 @@ jobs:
 
       - name: Build Russell Kestrel
         run: |
+          set -euo pipefail
           rm -rf build
 
           xcodebuild \
@@ -70,6 +71,23 @@ jobs:
           echo "Found application:"
           echo "$APP_PATH"
 
+          if [ ! -f "$APP_PATH/Info.plist" ]; then
+            echo "ERROR: app bundle has no Info.plist"
+            exit 1
+          fi
+
+          EXECUTABLE_NAME=$(/usr/libexec/PlistBuddy -c "Print :CFBundleExecutable" "$APP_PATH/Info.plist")
+          EXECUTABLE_PATH="$APP_PATH/$EXECUTABLE_NAME"
+          if [ ! -s "$EXECUTABLE_PATH" ]; then
+            echo "ERROR: app executable is missing or empty: $EXECUTABLE_PATH"
+            echo "Bundle contents:"
+            find "$APP_PATH" -maxdepth 3 -print
+            exit 1
+          fi
+
+          echo "Verified executable: $EXECUTABLE_PATH"
+          ls -lh "$EXECUTABLE_PATH"
+
           rm -rf Payload
           mkdir -p Payload
           cp -R "$APP_PATH" Payload/RussellKestrel.app
@@ -82,6 +100,20 @@ jobs:
 
           echo "IPA created:"
           ls -lh artifacts/
+
+          IPA_PATH="artifacts/Russell-Kestrel-iOS-V7-unsigned.ipa"
+          IPA_BYTES=$(stat -f%z "$IPA_PATH")
+          if [ "$IPA_BYTES" -lt 100000 ]; then
+            echo "ERROR: IPA is suspiciously small ($IPA_BYTES bytes)"
+            exit 1
+          fi
+
+          if ! unzip -l "$IPA_PATH" | grep -F "Payload/RussellKestrel.app/$EXECUTABLE_NAME" >/dev/null; then
+            echo "ERROR: executable is missing from packaged IPA"
+            unzip -l "$IPA_PATH"
+            exit 1
+          fi
+          echo "IPA validation passed ($IPA_BYTES bytes; executable included)."
 
       - name: Upload unsigned IPA
         uses: actions/upload-artifact@v4
