@@ -1,4 +1,4 @@
-mport SwiftUI
+import SwiftUI
 
 struct PlaybackView: View {
     @EnvironmentObject var settings: SettingsStore
