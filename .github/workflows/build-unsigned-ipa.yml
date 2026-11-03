@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - master
+      - live-gestures
 
 jobs:
   build:
@@ -76,9 +77,7 @@ jobs:
 
           mkdir -p artifacts
 
-          cd Payload
-          zip -r ../artifacts/Russell-Kestrel-iOS-V7-unsigned.ipa RussellKestrel.app
-          cd ..
+          zip -r artifacts/Russell-Kestrel-iOS-V7-unsigned.ipa Payload
 
           echo "IPA created:"
           ls -lh artifacts/
