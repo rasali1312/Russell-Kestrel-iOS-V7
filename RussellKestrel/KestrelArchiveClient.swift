@@ -135,8 +135,20 @@ final class KestrelArchiveClient {
         if parsed.isEmpty, messageXML.range(of: "<datalist", options: .caseInsensitive) != nil {
             throw ArchiveError.malformedResponse("This firmware returned an encoded record list that normally requires the Windows VPlugin transform. The search request reached the DVR, but the iOS decoder for that payload is not available yet.")
         }
-        return parsed.filter { $0.channel > 0 && channels.contains($0.channel) }
-            .sorted { $0.start < $1.start }
+        let matching = parsed.filter { channels.contains($0.channel) }
+        if matching.isEmpty {
+            let emptyList = messageXML.range(
+                of: #"<(?:recordlist|records)\s*(?:/>|>\s*</(?:recordlist|records)\s*>)"#,
+                options: [.regularExpression, .caseInsensitive]
+            ) != nil
+            guard parsed.isEmpty, emptyList else {
+                let detail = parsed.isEmpty
+                    ? "No readable recording rows in the response"
+                    : "The response contains rows, but their channels do not match the request"
+                throw ArchiveError.malformedResponse("\(detail) (\(messageCommand), \(messageXML.utf8.count) bytes).")
+            }
+        }
+        return matching.sorted { $0.start < $1.start }
     }
 
     private func post(command: String, content: String, to url: URL, config: KestrelConfiguration) async throws -> String {
@@ -152,6 +164,9 @@ final class KestrelArchiveClient {
         guard let http = response as? HTTPURLResponse else { throw URLError(.badServerResponse) }
         guard (200...299).contains(http.statusCode) else { throw ArchiveError.httpStatus(http.statusCode) }
         guard let text = String(data: data, encoding: .utf8) else { throw ArchiveError.malformedResponse("Response is not UTF-8 XML.") }
+        guard !text.lowercased().contains("<html"), !text.lowercased().contains("<!doctype html") else {
+            throw ArchiveError.malformedResponse("DVR returned a web page instead of archive XML (\(command), HTTP \(http.statusCode)).")
+        }
         return text
     }
 
