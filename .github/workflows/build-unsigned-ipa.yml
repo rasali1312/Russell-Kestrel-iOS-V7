@@ -37,6 +37,7 @@ jobs:
 
       - name: Build Russell Kestrel
         run: |
+          set -o pipefail
           rm -rf build
 
           xcodebuild \
@@ -68,6 +69,7 @@ jobs:
             exit 1
           fi
 
+          test -x "$APP_PATH/RussellKestrel"
           echo "Found application:"
           echo "$APP_PATH"
 
