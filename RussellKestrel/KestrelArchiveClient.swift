@@ -129,9 +129,25 @@ final class KestrelArchiveClient {
             messageCommand = "get.record.messageEx"
         }
 
-        let messageXML = try await post(command: messageCommand, content: "<record><id>\(xmlEscape(sessionID))</id></record>", to: url, config: config)
-        try checkDVRResponse(messageXML)
-        let parsed = parseRecordRows(messageXML)
+        let query = "<record><id>\(xmlEscape(sessionID))</id></record>"
+        var parsed: [ArchiveRecording] = []
+        var seen = Set<String>()
+        var messageXML = ""
+        for attempt in 0..<120 {
+            try Task.checkCancellation()
+            messageXML = try await post(command: messageCommand, content: query, to: url, config: config)
+            try checkDVRResponse(messageXML)
+            let rows = parseRecordRows(messageXML)
+            if rows.isEmpty, messageXML.range(of: "<datalist", options: .caseInsensitive) != nil {
+                throw ArchiveError.malformedResponse("The DVR returned an unreadable datalist (\(messageCommand), \(messageXML.utf8.count) bytes).")
+            }
+            parsed.append(contentsOf: rows.filter { seen.insert($0.id).inserted })
+            guard let page = firstValue(named: "page", in: messageXML), page != "0" else { break }
+            guard attempt < 119 else {
+                throw ArchiveError.malformedResponse("The DVR did not finish listing recordings after 120 responses.")
+            }
+            try await Task.sleep(nanoseconds: 200_000_000)
+        }
         if parsed.isEmpty, messageXML.range(of: "<datalist", options: .caseInsensitive) != nil {
             throw ArchiveError.malformedResponse("This firmware returned an encoded record list that normally requires the Windows VPlugin transform. The search request reached the DVR, but the iOS decoder for that payload is not available yet.")
         }
