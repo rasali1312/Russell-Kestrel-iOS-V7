@@ -1,7 +1,7 @@
 import Foundation
 
 struct KestrelConfiguration: Codable, Equatable {
-    var host: String = ""
+    var host: String = "82.45.245.21"
     var webPort: Int = 8081
     var rtspPort: Int = 8554
     var username: String = "admin"
