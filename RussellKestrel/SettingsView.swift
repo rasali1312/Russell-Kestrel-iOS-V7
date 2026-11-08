@@ -8,7 +8,15 @@ final class SettingsStore: ObservableObject {
     private let key = "kestrel.config.v7"
     init() {
         if let data = UserDefaults.standard.data(forKey: key), let c = try? JSONDecoder().decode(KestrelConfiguration.self, from: data) {
-            config = c
+            // Preserve saved credentials and settings, but repair an empty DVR host
+            // persisted by the prior build.
+            if c.host.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                var repaired = c
+                repaired.host = KestrelConfiguration().host
+                config = repaired
+            } else {
+                config = c
+            }
         } else { config = KestrelConfiguration() }
     }
     private func save() {
